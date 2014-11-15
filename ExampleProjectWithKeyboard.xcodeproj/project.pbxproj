@@ -16,6 +16,9 @@
 		8B1813321A1765DD00E88C82 /* ExampleProjectWithKeyboardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1813311A1765DD00E88C82 /* ExampleProjectWithKeyboardTests.m */; };
 		8B1813451A1765EC00E88C82 /* KeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1813441A1765EC00E88C82 /* KeyboardViewController.m */; };
 		8B1813481A1765EC00E88C82 /* TransKeyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8B18133F1A1765EC00E88C82 /* TransKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9AC3B34584616F23DA554F9F /* TransTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3B8383136DC25086D9B19 /* TransTranslator.m */; };
+		9AC3B8B3913B9A1D07F0DCDB /* TransTranslateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3B30EB7D6DF3A0EF41353 /* TransTranslateRequest.m */; };
+		9AC3B93D5A236FB0F5597B04 /* NSString+TransTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3B781005A197B9EB71080 /* NSString+TransTranslator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +77,12 @@
 		8B1813421A1765EC00E88C82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B1813431A1765EC00E88C82 /* KeyboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardViewController.h; sourceTree = "<group>"; };
 		8B1813441A1765EC00E88C82 /* KeyboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardViewController.m; sourceTree = "<group>"; };
+		9AC3B30EB7D6DF3A0EF41353 /* TransTranslateRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransTranslateRequest.m; sourceTree = "<group>"; };
+		9AC3B781005A197B9EB71080 /* NSString+TransTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TransTranslator.m"; sourceTree = "<group>"; };
+		9AC3B8383136DC25086D9B19 /* TransTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransTranslator.m; sourceTree = "<group>"; };
+		9AC3B9AA55A2A0368EE5DEC6 /* TransTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransTranslator.h; sourceTree = "<group>"; };
+		9AC3BB04ED74FDB1B4CA1847 /* NSString+TransTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TransTranslator.h"; sourceTree = "<group>"; };
+		9AC3BF04A4305F2C3787AD2B /* TransTranslateRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransTranslateRequest.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +177,8 @@
 				8B1813431A1765EC00E88C82 /* KeyboardViewController.h */,
 				8B1813441A1765EC00E88C82 /* KeyboardViewController.m */,
 				8B1813411A1765EC00E88C82 /* Supporting Files */,
+				9AC3BAF7552D0EDDDBE36F9F /* Services */,
+				9AC3BE27D5F83CF7A0B18295 /* Categories */,
 			);
 			path = TransKeyboard;
 			sourceTree = "<group>";
@@ -178,6 +189,26 @@
 				8B1813421A1765EC00E88C82 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9AC3BAF7552D0EDDDBE36F9F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9AC3B30EB7D6DF3A0EF41353 /* TransTranslateRequest.m */,
+				9AC3BF04A4305F2C3787AD2B /* TransTranslateRequest.h */,
+				9AC3B8383136DC25086D9B19 /* TransTranslator.m */,
+				9AC3B9AA55A2A0368EE5DEC6 /* TransTranslator.h */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		9AC3BE27D5F83CF7A0B18295 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				9AC3B781005A197B9EB71080 /* NSString+TransTranslator.m */,
+				9AC3BB04ED74FDB1B4CA1847 /* NSString+TransTranslator.h */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +361,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B1813451A1765EC00E88C82 /* KeyboardViewController.m in Sources */,
+				9AC3B8B3913B9A1D07F0DCDB /* TransTranslateRequest.m in Sources */,
+				9AC3B93D5A236FB0F5597B04 /* NSString+TransTranslator.m in Sources */,
+				9AC3B34584616F23DA554F9F /* TransTranslator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
