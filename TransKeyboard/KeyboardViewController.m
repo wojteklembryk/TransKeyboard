@@ -10,8 +10,6 @@
 #import "TransTranslator.h"
 
 @interface KeyboardViewController ()
-@property (nonatomic, strong) UIButton *nextKeyboardButton;
-@property (nonatomic, strong) UIButton *aButton;
 @end
 
 @implementation KeyboardViewController
@@ -24,38 +22,61 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Perform custom UI setup here
-    
-    self.aButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.aButton addTarget:self
-               action:@selector(buttonTapped:)
-     forControlEvents:UIControlEventTouchUpInside];
-    [self.aButton setTitle:@"A" forState:UIControlStateNormal];
-    self.aButton.frame = CGRectMake(0.0, 0.0, 160.0, 40.0);
-    [self.view addSubview:self.aButton];
-    
-    
-    self.nextKeyboardButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    
-    [self.nextKeyboardButton setTitle:NSLocalizedString(@"Next Keyboard", @"Title for 'Next Keyboard' button") forState:UIControlStateNormal];
-    [self.nextKeyboardButton sizeToFit];
-    self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self.nextKeyboardButton addTarget:self action:@selector(advanceToNextInputMode) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:self.nextKeyboardButton];
-    
 
-    
-    NSLayoutConstraint *nextKeyboardButtonLeftSideConstraint = [NSLayoutConstraint constraintWithItem:self.nextKeyboardButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
-    NSLayoutConstraint *nextKeyboardButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:self.nextKeyboardButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
-    [self.view addConstraints:@[nextKeyboardButtonLeftSideConstraint, nextKeyboardButtonBottomConstraint]];
 }
 
+- (UIButton *)getButtonFromString:(NSString *)string
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.backgroundColor = [UIColor whiteColor];
+    button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    button.tintColor = [UIColor blackColor];
+    [button setTitle:string forState:UIControlStateNormal];
+    if ([string isEqualToString:@"SW"]) {
+        [button addTarget:self action:@selector(advanceToNextInputMode) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else {
+        [button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return button;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    [self drawRowWithArray:@[@"1", @"2",@"3", @"4", @"5", @"6",@"7" ,@"8" ,@"9" ,@"0", @"<-"] andRowNumber:0];
+    [self drawRowWithArray:@[@"Q", @"W",@"E", @"R", @"T", @"Y",@"U" ,@"I" ,@"O" ,@"P"] andRowNumber:1];
+    [self drawRowWithArray:@[@"A", @"S",@"D", @"F", @"G", @"H",@"J" ,@"K" ,@"L"] andRowNumber:2];
+    [self drawRowWithArray:@[@"SW", @"Z", @"X",@"C", @"V", @"B", @"N",@"M"] andRowNumber:3];
+    [self drawRowWithArray:@[@"SPACE"] andRowNumber:4];
+
+ 
+}
+
+- (void)drawRowWithArray:(NSArray *)array
+            andRowNumber:(int)row
+{
+    CGFloat buttonWidth = self.view.frame.size.width / array.count;
+    __block CGFloat position = 0;
+
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        UIButton *b = [self getButtonFromString:(NSString *)obj];
+        b.frame = CGRectMake(position, (self.view.frame.size.height - 175) + row * 35, buttonWidth, 35);
+        position +=buttonWidth;
+        [self.view addSubview:b];
+    }];
+}
 - (void)buttonTapped:(UIButton *)sender
 {
-    [self.textDocumentProxy insertText:sender.titleLabel.text];
+    if ([sender.titleLabel.text isEqualToString:@"<-"]) {
+        [self.textDocumentProxy deleteBackward];
+    }
+    else if ([sender.titleLabel.text isEqualToString:@"SPACE"]) {
+        [self.textDocumentProxy insertText:@" "];
+    }
+    else {
+        [self.textDocumentProxy insertText:sender.titleLabel.text];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,7 +97,6 @@
     } else {
         textColor = [UIColor blackColor];
     }
-    [self.nextKeyboardButton setTitleColor:textColor forState:UIControlStateNormal];
 }
 
 @end
