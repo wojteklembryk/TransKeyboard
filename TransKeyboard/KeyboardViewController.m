@@ -9,6 +9,8 @@
 #import "KeyboardViewController.h"
 
 @interface KeyboardViewController ()
+@property (nonatomic, copy) NSString *lastWord;
+@property (nonatomic) NSRange rangeOfLastWord;
 @end
 
 @implementation KeyboardViewController
@@ -57,7 +59,6 @@
 {
     CGFloat buttonWidth = self.view.frame.size.width / array.count;
     __block CGFloat position = 0;
-
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UIButton *b = [self getButtonFromString:(NSString *)obj];
         b.frame = CGRectMake(position, (self.view.frame.size.height - 175) + row * 35, buttonWidth, 35);
@@ -76,11 +77,25 @@
     else {
         [self.textDocumentProxy insertText:sender.titleLabel.text];
     }
+    
+    [self findLastWordFromText:self.textDocumentProxy.documentContextBeforeInput];
+    NSLog(@"%@", self.lastWord);
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated
+- (void)findLastWordFromText:(NSString *)text
+{
+    __weak typeof (self) weakSelf = self;
+    [text enumerateSubstringsInRange:NSMakeRange(0, [text length]) options:NSStringEnumerationByWords | NSStringEnumerationReverse usingBlock:^(NSString *substring, NSRange subrange, NSRange enclosingRange, BOOL *stop) {
+        typeof (weakSelf) strongSelf = weakSelf;
+        strongSelf.lastWord = substring;
+        strongSelf.rangeOfLastWord = NSMakeRange(enclosingRange.location, enclosingRange.length);
+        *stop = YES;
+    }];
+}
+
+- (void)replaceLastWordWithRange:(NSRange)range withTranslatedWord:(NSString *)translatedWord
+{
+    [self.textDocumentProxy.documentContextBeforeInput stringByReplacingCharactersInRange:range withString:translatedWord];
 }
 
 - (void)textWillChange:(id<UITextInput>)textInput {
