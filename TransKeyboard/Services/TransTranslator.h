@@ -25,15 +25,15 @@ extern float const TransTranslatorUnknownConfidence;
 
 @interface TransTranslator : NSObject
 
-typedef void (^TransTranslatorCompletionHandler)(NSError *error, NSString *translated, NSString *sourceLanguage);
+typedef void (^TransTranslatorCompletionHandler)(NSError *error, NSString *translatedText, NSString *sourceLanguage);
 
 @property(nonatomic, readonly) NSString *googleAPIKey;
 
 - (id)initWithGoogleAPIKey:(NSString *)key;
 
-- (void)translateText:(NSString *)text
-           withSource:(NSString *)source
-               target:(NSString *)target
+- (void)translateText:(NSString *)textToTranslate
+           withSource:(NSString *)sourceLanguage
+               target:(NSString *)targetLanguage
            completion:(TransTranslatorCompletionHandler)completion;
 
 @end

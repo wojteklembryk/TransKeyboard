@@ -8,10 +8,10 @@ extern NSString *const TRANS_TRANSLATOR_ERROR_DOMAIN;
 
 @interface TransTranslateRequest : NSObject
 
-+ (NSURLSession *)googleTranslateMessage:(NSString *)message
-                              withSource:(NSString *)source
-                                  target:(NSString *)target
-                                     key:(NSString *)key
++ (NSURLSessionDataTask *)googleTranslateMessage:(NSString *)message
+                              withSource:(NSString *)sourceLanguage
+                                  target:(NSString *)targetLanguage
+                                  apiKey:(NSString *)key
                               completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
 
 @end
