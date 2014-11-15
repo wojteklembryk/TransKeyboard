@@ -24,6 +24,16 @@
     [super viewDidLoad];
     
     // Perform custom UI setup here
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(buttonTapped:)
+     forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"A" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, 0.0, 160.0, 40.0);
+    [self.view addSubview:button];
+    
+    
     self.nextKeyboardButton = [UIButton buttonWithType:UIButtonTypeSystem];
     
     [self.nextKeyboardButton setTitle:NSLocalizedString(@"Next Keyboard", @"Title for 'Next Keyboard' button") forState:UIControlStateNormal];
@@ -34,9 +44,16 @@
     
     [self.view addSubview:self.nextKeyboardButton];
     
+
+    
     NSLayoutConstraint *nextKeyboardButtonLeftSideConstraint = [NSLayoutConstraint constraintWithItem:self.nextKeyboardButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0];
     NSLayoutConstraint *nextKeyboardButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:self.nextKeyboardButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
     [self.view addConstraints:@[nextKeyboardButtonLeftSideConstraint, nextKeyboardButtonBottomConstraint]];
+}
+
+- (void)buttonTapped:(id)sender
+{
+    NSLog(@"te" );
 }
 
 - (void)didReceiveMemoryWarning {
