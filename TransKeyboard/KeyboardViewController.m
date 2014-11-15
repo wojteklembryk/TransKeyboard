@@ -47,6 +47,8 @@
     [self drawRowWithArray:@[@"Q", @"W",@"E", @"R", @"T", @"Y",@"U" ,@"I" ,@"O" ,@"P"] andRowNumber:1];
     [self drawRowWithArray:@[@"A", @"S",@"D", @"F", @"G", @"H",@"J" ,@"K" ,@"L"] andRowNumber:2];
     [self drawRowWithArray:@[@"SW", @"Z", @"X",@"C", @"V", @"B", @"N",@"M"] andRowNumber:3];
+    [self drawRowWithArray:@[@"SPACE"] andRowNumber:4];
+
  
 }
 
@@ -58,16 +60,21 @@
 
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UIButton *b = [self getButtonFromString:(NSString *)obj];
-        b.frame = CGRectMake(position, (self.view.frame.size.height - 160) + row * 40, buttonWidth, 40);
+        b.frame = CGRectMake(position, (self.view.frame.size.height - 175) + row * 35, buttonWidth, 35);
         position +=buttonWidth;
         [self.view addSubview:b];
     }];
 }
 - (void)buttonTapped:(UIButton *)sender
 {
-    [self.textDocumentProxy insertText:sender.titleLabel.text];
     if ([sender.titleLabel.text isEqualToString:@"<-"]) {
         [self.textDocumentProxy deleteBackward];
+    }
+    else if ([sender.titleLabel.text isEqualToString:@"SPACE"]) {
+        [self.textDocumentProxy insertText:@" "];
+    }
+    else {
+        [self.textDocumentProxy insertText:sender.titleLabel.text];
     }
 }
 

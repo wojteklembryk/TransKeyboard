@@ -580,6 +580,7 @@
 				8B1813371A1765DD00E88C82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8B1813381A1765DD00E88C82 /* Build configuration list for PBXNativeTarget "ExampleProjectWithKeyboardTests" */ = {
 			isa = XCConfigurationList;
@@ -588,6 +589,7 @@
 				8B18133A1A1765DD00E88C82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8B18134B1A1765EC00E88C82 /* Build configuration list for PBXNativeTarget "TransKeyboard" */ = {
 			isa = XCConfigurationList;
@@ -596,6 +598,7 @@
 				8B18134D1A1765EC00E88C82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
