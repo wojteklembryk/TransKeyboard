@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self translateText:@"cześć"];
+    [self translateText:@"nazwisko"];
 }
 
 - (void)translateText:(NSString *)text {

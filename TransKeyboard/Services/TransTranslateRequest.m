@@ -32,8 +32,7 @@ NSString *const TRANS_TRANSLATOR_ERROR_DOMAIN = @"TransTranslatorErrorDomain";
 
     // message
     [queryString appendFormat:@"&q=%@", [NSString urlEncodedStringFromString:message]];
-
-    NSURL *url = [NSURL URLWithString:queryString relativeToURL:baseUrl];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", baseUrl.absoluteString, queryString]];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:configuration];
 
