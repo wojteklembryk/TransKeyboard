@@ -12,6 +12,7 @@
 @interface KeyboardViewController ()
 @property (nonatomic, copy) NSString *lastWord;
 @property (nonatomic) NSRange rangeOfLastWord;
+@property (nonatomic ,strong) UIButton *translatedTextButton;
 @end
 
 @implementation KeyboardViewController
@@ -24,6 +25,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.translatedTextButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.translatedTextButton.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:self.translatedTextButton];
+    
+    self.translatedTextButton.frame = CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, 40);
+    self.translatedTextButton.titleLabel.font = [UIFont systemFontOfSize:20];
+    self.translatedTextButton.tintColor = [UIColor blackColor];
+    [self.translatedTextButton addTarget:self action:@selector(replaceLastWordWithTranslatedWord:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self drawRowWithArray:@[@"1", @"2",@"3", @"4", @"5", @"6",@"7" ,@"8" ,@"9" ,@"0", @"<-"] andRowNumber:0];
+    [self drawRowWithArray:@[@"Q", @"W",@"E", @"R", @"T", @"Y",@"U" ,@"I" ,@"O" ,@"P"] andRowNumber:1];
+    [self drawRowWithArray:@[@"A", @"S",@"D", @"F", @"G", @"H",@"J" ,@"K" ,@"L"] andRowNumber:2];
+    [self drawRowWithArray:@[@"SW", @"Z", @"X",@"C", @"V", @"B", @"N",@"M"] andRowNumber:3];
+    [self drawRowWithArray:@[@"SPACE"] andRowNumber:4];
 
 }
 
@@ -43,26 +58,23 @@
     return button;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    [self drawRowWithArray:@[@"1", @"2",@"3", @"4", @"5", @"6",@"7" ,@"8" ,@"9" ,@"0", @"<-"] andRowNumber:0];
-    [self drawRowWithArray:@[@"Q", @"W",@"E", @"R", @"T", @"Y",@"U" ,@"I" ,@"O" ,@"P"] andRowNumber:1];
-    [self drawRowWithArray:@[@"A", @"S",@"D", @"F", @"G", @"H",@"J" ,@"K" ,@"L"] andRowNumber:2];
-    [self drawRowWithArray:@[@"SW", @"Z", @"X",@"C", @"V", @"B", @"N",@"M"] andRowNumber:3];
-    [self drawRowWithArray:@[@"SPACE"] andRowNumber:4];
-
- 
 }
 
 - (void)drawRowWithArray:(NSArray *)array
             andRowNumber:(int)row
 {
-    CGFloat buttonWidth = self.view.frame.size.width / array.count;
+    CGFloat buttonWidth = [[UIScreen mainScreen] applicationFrame].size.width / array.count;
     __block CGFloat position = 0;
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UIButton *b = [self getButtonFromString:(NSString *)obj];
-        b.frame = CGRectMake(position, (self.view.frame.size.height - 175) + row * 35, buttonWidth, 35);
+        b.frame = CGRectMake(position,40 + row * 35, buttonWidth, 35);
         position +=buttonWidth;
         [self.view addSubview:b];
     }];
@@ -74,12 +86,14 @@
     }
     else if ([sender.titleLabel.text isEqualToString:@"SPACE"]) {
         [self.textDocumentProxy insertText:@" "];
+        [self findLastWordFromText:self.textDocumentProxy.documentContextBeforeInput];
+        [self translateText:[self.lastWord lowercaseString]];
     }
     else {
-        [self.textDocumentProxy insertText:sender.titleLabel.text];
+        [self.textDocumentProxy insertText:[sender.titleLabel.text lowercaseString]];
     }
     
-    [self findLastWordFromText:self.textDocumentProxy.documentContextBeforeInput];
+
     NSLog(@"%@", self.lastWord);
 }
 
@@ -94,9 +108,29 @@
     }];
 }
 
-- (void)replaceLastWordWithRange:(NSRange)range withTranslatedWord:(NSString *)translatedWord
+- (void)translateText:(NSString *)text {
+    TransTranslator *translator = [[TransTranslator alloc] initWithGoogleAPIKey:@"AIzaSyCtp1w5z9xuf8TuXj0IRy328iHh8M5PpEM"];
+    
+    [translator translateText:text withSource:@"pl" target:@"en"
+                   completion:^(NSError *error, NSString *translated, NSString *sourceLanguage) {
+                       if (error) {
+                           NSLog(@"DUPA\n%@", error);
+                       } else {
+                           NSLog(@"%@ %@", translated, sourceLanguage);
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               [self.translatedTextButton setTitle:translated forState:UIControlStateNormal];
+                           });
+                       }
+                   }];
+}
+
+- (void)replaceLastWordWithTranslatedWord:(UIButton *)sender
 {
-    [self.textDocumentProxy.documentContextBeforeInput stringByReplacingCharactersInRange:range withString:translatedWord];
+    for (int i = 0; i < self.rangeOfLastWord.length; i++) {
+        [self.textDocumentProxy deleteBackward];
+    }
+    
+    [self.textDocumentProxy insertText:sender.titleLabel.text];
 }
 
 - (void)textWillChange:(id<UITextInput>)textInput {

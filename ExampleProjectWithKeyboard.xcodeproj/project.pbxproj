@@ -16,11 +16,9 @@
 		8B1813321A1765DD00E88C82 /* ExampleProjectWithKeyboardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1813311A1765DD00E88C82 /* ExampleProjectWithKeyboardTests.m */; };
 		8B1813451A1765EC00E88C82 /* KeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1813441A1765EC00E88C82 /* KeyboardViewController.m */; };
 		8B1813481A1765EC00E88C82 /* TransKeyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8B18133F1A1765EC00E88C82 /* TransKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9AC3B320AE393E377FE0AC79 /* NSString+TransTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3B781005A197B9EB71080 /* NSString+TransTranslator.m */; };
+		8BBFA0FD1A17AFCE00D917E2 /* NSString+TransTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3B781005A197B9EB71080 /* NSString+TransTranslator.m */; };
 		9AC3B34584616F23DA554F9F /* TransTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3B8383136DC25086D9B19 /* TransTranslator.m */; };
-		9AC3B5E3A5D719D21F9AAFEC /* TransTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3B8383136DC25086D9B19 /* TransTranslator.m */; };
 		9AC3B8B3913B9A1D07F0DCDB /* TransTranslateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3B30EB7D6DF3A0EF41353 /* TransTranslateRequest.m */; };
-		9AC3BFEC2630BC8EC1F07CC3 /* TransTranslateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC3B30EB7D6DF3A0EF41353 /* TransTranslateRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -347,9 +345,6 @@
 				8B18131E1A1765DD00E88C82 /* ViewController.m in Sources */,
 				8B18131B1A1765DD00E88C82 /* AppDelegate.m in Sources */,
 				8B1813181A1765DD00E88C82 /* main.m in Sources */,
-				9AC3BFEC2630BC8EC1F07CC3 /* TransTranslateRequest.m in Sources */,
-				9AC3B5E3A5D719D21F9AAFEC /* TransTranslator.m in Sources */,
-				9AC3B320AE393E377FE0AC79 /* NSString+TransTranslator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +362,7 @@
 			files = (
 				8B1813451A1765EC00E88C82 /* KeyboardViewController.m in Sources */,
 				9AC3B8B3913B9A1D07F0DCDB /* TransTranslateRequest.m in Sources */,
+				8BBFA0FD1A17AFCE00D917E2 /* NSString+TransTranslator.m in Sources */,
 				9AC3B34584616F23DA554F9F /* TransTranslator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
