@@ -10,6 +10,7 @@
 
 @interface KeyboardViewController ()
 @property (nonatomic, strong) UIButton *nextKeyboardButton;
+@property (nonatomic, strong) UIButton *aButton;
 @end
 
 @implementation KeyboardViewController
@@ -25,13 +26,13 @@
     
     // Perform custom UI setup here
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self
+    self.aButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.aButton addTarget:self
                action:@selector(buttonTapped:)
      forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"A" forState:UIControlStateNormal];
-    button.frame = CGRectMake(0.0, 0.0, 160.0, 40.0);
-    [self.view addSubview:button];
+    [self.aButton setTitle:@"A" forState:UIControlStateNormal];
+    self.aButton.frame = CGRectMake(0.0, 0.0, 160.0, 40.0);
+    [self.view addSubview:self.aButton];
     
     
     self.nextKeyboardButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -51,9 +52,9 @@
     [self.view addConstraints:@[nextKeyboardButtonLeftSideConstraint, nextKeyboardButtonBottomConstraint]];
 }
 
-- (void)buttonTapped:(id)sender
+- (void)buttonTapped:(UIButton *)sender
 {
-    NSLog(@"te" );
+    [self.textDocumentProxy insertText:sender.titleLabel.text];
 }
 
 - (void)didReceiveMemoryWarning {
