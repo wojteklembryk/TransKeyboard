@@ -41,11 +41,8 @@ NSString *const TRANS_TRANSLATOR_ERROR_DOMAIN = @"TransTranslatorErrorDomain";
     NSURLSessionDataTask *task = [defaultSession dataTaskWithURL:url
                                                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                    if (error) {
-                                                       NSLog(@"TransTranslator failed translate: %@", response);
-
                                                        completion(nil, nil, error);
                                                    } else {
-                                                       NSLog(@"TransTranslator translated: %@", response);
                                                        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data
                                                                                                                           options:kNilOptions
                                                                                                                             error:nil];
@@ -71,18 +68,7 @@ NSString *const TRANS_TRANSLATOR_ERROR_DOMAIN = @"TransTranslatorErrorDomain";
     ];
     [task resume];
 
-    NSURLSessionDataTask *dataTask = [defaultSession dataTaskWithRequest:request
-                                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                           NSLog(@"Response:%@ %@\n", response, error);
-                                                           if (error == nil) {
-                                                               NSString *text = [[NSString alloc] initWithData:data
-                                                                                                      encoding:NSUTF8StringEncoding];
-                                                               NSLog(@"Data = %@", text);
-                                                           }
-
-                                                       }];
-
-    return dataTask;
+    return task;
 }
 
 @end
