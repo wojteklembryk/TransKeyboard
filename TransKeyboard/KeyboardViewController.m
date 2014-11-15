@@ -7,6 +7,7 @@
 //
 
 #import "KeyboardViewController.h"
+#import "TransTranslator.h"
 
 @interface KeyboardViewController ()
 @property (nonatomic, strong) UIButton *nextKeyboardButton;
@@ -17,7 +18,7 @@
 
 - (void)updateViewConstraints {
     [super updateViewConstraints];
-    
+
     // Add custom view sizing constraints here
 }
 

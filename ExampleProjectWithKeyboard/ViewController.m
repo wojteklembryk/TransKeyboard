@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "TransTranslator.h"
 
 @interface ViewController ()
 
@@ -14,11 +15,24 @@
 
 @implementation ViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSLog(@"Test");
+
+    [self translateText:@"cześć"];
 }
+
+- (void)translateText:(NSString *)text {
+    TransTranslator *translator = [[TransTranslator alloc] initWithGoogleAPIKey:@"AIzaSyCtp1w5z9xuf8TuXj0IRy328iHh8M5PpEM"];
+
+    [translator translateText:text withSource:@"pl" target:@"en"
+                   completion:^(NSError *error, NSString *translated, NSString *sourceLanguage) {
+                       if (error) {
+                           NSLog(@"DUPA\n%@", error);
+                       } else {
+                           NSLog(@"%@ %@", translated, sourceLanguage);
+                       }
+                   }];
+}
+
 
 @end

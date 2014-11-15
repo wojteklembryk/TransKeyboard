@@ -18,7 +18,7 @@ enum TransTranslatorState {
 @property(nonatomic) TransTranslatorState translatorState;
 @property(nonatomic) NSString *googleAPIKey;
 @property(nonatomic, copy) TransTranslatorCompletionHandler completionHandler;
-@property(nonatomic) NSURLSession *operation;
+@property(nonatomic) NSURLSessionDataTask *dataTask;
 
 @end
 
@@ -35,11 +35,11 @@ enum TransTranslatorState {
     return self;
 }
 
-- (void)translateText:(NSString *)text
-           withSource:(NSString *)source
-               target:(NSString *)target
+- (void)translateText:(NSString *)textToTranslate
+           withSource:(NSString *)sourceLanguage
+               target:(NSString *)targetLanguage
            completion:(TransTranslatorCompletionHandler)completion {
-    if (!completion || !text || text.length == 0)
+    if (!completion || !textToTranslate || textToTranslate.length == 0)
         return;
 
     if (self.googleAPIKey.length == 0) {
@@ -66,7 +66,7 @@ enum TransTranslatorState {
 
     // check cache for existing translation
     NSCache *cache = [TransTranslator translationCache];
-    NSDictionary *cached = [cache objectForKey:text];
+    NSDictionary *cached = [cache objectForKey:textToTranslate];
     if (cached) {
         NSString *cachedSource = [cached objectForKey:@"src"];
         NSString *cachedTranslation = [cached objectForKey:@"txt"];
@@ -77,27 +77,27 @@ enum TransTranslatorState {
         return;
     }
 
-    source = [self filteredLanguageCodeFromCode:source];
-    if (!target) {
-        target = [self filteredLanguageCodeFromCode:[[NSLocale preferredLanguages] objectAtIndex:0]];
+    sourceLanguage = [self filteredLanguageCodeFromCode:sourceLanguage];
+    if (!targetLanguage) {
+        targetLanguage = [self filteredLanguageCodeFromCode:[[NSLocale preferredLanguages] objectAtIndex:0]];
     }
 
-    if ([[source lowercaseString] isEqualToString:target]) {
-        source = nil;
+    if ([[sourceLanguage lowercaseString] isEqualToString:targetLanguage]) {
+        sourceLanguage = nil;
     }
 
     self.completionHandler = completion;
 
     if (self.googleAPIKey) {
-        self.operation = [TransTranslateRequest googleTranslateMessage:text
-                                                            withSource:source
-                                                                target:target
-                                                                   key:self.googleAPIKey
+        self.dataTask = [TransTranslateRequest googleTranslateMessage:textToTranslate
+                                                            withSource:sourceLanguage
+                                                                target:targetLanguage
+                                                                apiKey:self.googleAPIKey
                                                             completion:^(NSString *translatedMessage, NSString *detectedSource, NSError *error) {
                                                                 if (error) {
                                                                     [self handleError:error];
                                                                 } else {
-                                                                    [self handleSuccessWithOriginal:text
+                                                                    [self handleSuccessWithOriginal:textToTranslate
                                                                                   translatedMessage:translatedMessage
                                                                                      detectedSource:detectedSource];
                                                                 }
@@ -139,11 +139,10 @@ enum TransTranslatorState {
 }
 
 - (void)handleError:(NSError *)error {
-    error.code == TransTranslatorErrorUnableToTranslate;
-
-    NSError *fgError = [self errorWithCode:error.code description:nil];
-    if (self.completionHandler)
-        self.completionHandler(fgError, nil, nil);
+    if (self.completionHandler) {
+        error.code == TransTranslatorErrorUnableToTranslate;
+        self.completionHandler(error, nil, nil);
+    }
 }
 
 - (void)handleSuccessWithOriginal:(NSString *)original
